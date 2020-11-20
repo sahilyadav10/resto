@@ -1,16 +1,19 @@
 <% layout('layouts/boilerplate')%>
 <link rel="stylesheet" href="/stylesheets/stars.css">
-
+<div class="container-fluid">
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6">
         <div id="restaurantCarousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
+                <%if(restaurant.images.length) {%>
                 <% restaurant.images.forEach((img, i) => {  %>
                 <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
                     <img src="<%= img.url%>" class="d-block w-100" alt="">
                 </div>
                 <% }) %>
-
+                <% }else {%>
+                    <img src="https://res.cloudinary.com/dqg4qncnh/image/upload/e_grayscale/v1605904375/Resto/dog_aqyoa8.jpg" class="d-block w-100" alt="">
+                <% } %>
             </div>
             <% if(restaurant.images.length > 1) {%>
             <a class="carousel-control-prev" href="#restaurantCarousel" role="button" data-slide="prev">
@@ -32,7 +35,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item text-muted"><%= restaurant.location%></li>
                 <li class="list-group-item">Submitted by <%= restaurant.author.username%></li>
-                <li class="list-group-item">$<%= restaurant.price%>/night</li>
+                <li class="list-group-item">Rs.<%= restaurant.price%>/Per Person</li>
             </ul>
             <%  if( currentUser && restaurant.author.equals(currentUser._id))  {%>
             <div class="card-body">
@@ -48,16 +51,16 @@
         </div>
 
     </div>
-    <div class="col-6">
+    <div class="col-md-6">
         <div id='map'></div>
         <% if(currentUser){ %>
-        <h2>Leave a Review</h2>
+        <h2 class = "mt-5 mt-md-0">Leave a Review</h2>
         <form action="/restaurants/<%=restaurant._id%>/reviews" method="POST" class="mb-3 validate-form" novalidate>
             <!-- <div class="mb-3">
                 <label class="form-label" for="rating">Rating</label>
                 <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
             </div> -->
-            <fieldset class="starability-basic">
+            <fieldset class="starability-basic mt-4">
                 <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
                     aria-label="No rating." />
                 <input type="radio" id="first-rate1" name="review[rating]" value="1" />
@@ -99,6 +102,7 @@
         </div>
         <% } %>
     </div>
+</div>
 </div>
 <script>
     const mapToken = '<%-process.env.MAPBOX_TOKEN%>';

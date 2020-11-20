@@ -8,10 +8,12 @@
             <button type="button" class="btn btn-dark py-0"><a href="/restaurants/new">Add Restaurants</a></button>
         </div>
     </div>
-    <div class="container">
-        <div class="row d-flex justify-content-around">
+    <div class="container-fluid">
+        <div class="row">
+           
                 <% for (let restaurant of restaurants){%>
-                <div class="card mt-3 text-center mx-4" style="width: 20vw;">
+                    <div class="col-md-3">
+                <div class="card mt-3 text-center mx-4">
                     <%if(restaurant.images.length) {%>
                     <img class="img-fluid" alt="" src="<%=restaurant.images[0].url%>">
                     <% }else {%>
@@ -27,7 +29,9 @@
                             <%=restaurant.title%></a>
                     </div>
                 </div>
-                <% }%>       
+            </div>
+                <% }%>
+            
         </div>
     </div>
 </div>
