@@ -42,7 +42,7 @@ db.once("open", ()=>{
 const app = express();
 
 const port = process.env.PORT || 3000;
-const secret = process.env.SECRET || 'thisshouldbeasecret';
+const secret = process.env.SECRET;
 
 app.engine('ejs', ejsMate);
 app.set("view engine", "ejs");
