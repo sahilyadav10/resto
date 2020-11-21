@@ -141,6 +141,16 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use (function (req, res, next) {
+  if (req.get('X-Forwarded-Proto')=='https' || req.hostname == 'localhost') {
+          // if https request
+          next();
+  } else {
+          // if http request, redirect to https
+          res.redirect('https://' + req.headers.host + req.url);
+  }
+});
+
 app.use("/", userRoutes);
 app.use('/restaurants', restaurantRoutes);
 app.use('/restaurants/:id/reviews', reviewRoutes);
@@ -151,7 +161,7 @@ app.get("/", (req, res) =>{
 
 
 app.all('*', (req, res, next) => {
-    next(new expressError('Page not found', 404));
+    res.render("404");
 });
 
 app.use((err, req, res, next) => {
